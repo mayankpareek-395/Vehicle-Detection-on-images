@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 if __name__ == '__main__':
-    # Load your model
+    # Load the model
     #model = YOLO("yolov8n.pt") 
     model = YOLO("E:/Codes/runs/detect/train-4/weights/last.pt")
 
