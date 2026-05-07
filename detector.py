@@ -4,32 +4,33 @@ import sys
 import os
 from ultralytics import YOLO
 
-# 1. Setup the "Filter" (Argument Parser)
+# The description helps explain what the script does if a user types python script.py --help in the terminal.
 parser = argparse.ArgumentParser(description="Object Detection CLI Tool")
 
-# 2. Tell it what to look for
+# Tell it what to look for
 # we want a flag called '--source' and it's required
 parser.add_argument("--source", type=str, required=True, help="Path to the image file")
 
-# 3. Pull the words out of the terminal
+# Pull the words out of the terminal
 args = parser.parse_args()
 
-#checking if the user entered a file or a folder 
+# checking if the user entered a file or a folder 
 is_folder = os.path.isdir(args.source)
 
 model = YOLO("best.pt")
 
-# --- Data Extraction & Counting ---
+# used at the end to show output
 final_output = []
 
 results = model.predict(source = args.source, save = is_folder, verbose = False) # verbose=False keeps the terminal clean
 # Save = False keeps the code from saving result copies of images on your harddrive and keep the work temp on RAM
 
-sys.stdout.write(f"I am looking at: {args.source}\n")
+# Shows the user what path is currently being processed.
+sys.stdout.write(f"I am looking at: {args.source}\n") 
 
 for result in results :
 
-    #trying to show the resulting image
+    # Show the resulting image
     if not is_folder :
         result.show()
 
@@ -72,11 +73,6 @@ for result in results :
     }
 
     final_output.append(summary)
-
-        # print(f"Detected: {label} with {confidence:.2f} confidence")
-
-# print("--- Detection Summary ---")
-# print(counts)
 
 # --- JSON Output ---
 # indent=4 makes the JSON look "pretty" and readable
